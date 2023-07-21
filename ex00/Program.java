@@ -1,6 +1,6 @@
 public class Program {
   public static void main(String[] args) {
-    int number = 479598;
+    int number = 11122;
     int result = 0;
     while(number != 0){
         result += number % 10;
