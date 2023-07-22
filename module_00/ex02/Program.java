@@ -28,7 +28,7 @@ public class Program {
 
 public class NumberPrime{
     // 
-    private int num, instractions; 
+    private int num, instractions;
 
     // constructor
     public NumberPrime(int num){
@@ -47,7 +47,6 @@ public class NumberPrime{
 
     public  boolean isPrime(){
         int i = 5;
-
         if (this.num <= 1)
             return false;
         this.sumDigits();
