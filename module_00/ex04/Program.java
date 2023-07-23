@@ -69,7 +69,7 @@ public class list{
         node maxNode = null;
         int cmp = -1;
         while(tmp != null){
-            if (!tmp.bool && (cmp == -1 || tmp.count > cmp)){
+            if (!tmp.bool && ((cmp == -1 || tmp.count > cmp) || ((maxNode != null) && (tmp.count == maxNode.count) &&  (tmp.c < maxNode.c)))){
                 cmp = tmp.count;
                 maxNode = tmp;
             }
@@ -82,45 +82,56 @@ public class list{
     }
 
     private String fill_arrow(node Node){
-        int i = 1;
+        int i = 0;
         String arrow = new String("");
-        arrow += Node.count;
         int count  = (int)((double)(Node.count  * 10 ) / this.moyen);
-        while(i <= count){
+        while(i < count){
             arrow += "#";
             ++i;
         }
-        arrow += Node.c;
         return arrow;
     }
 
     public void visualize(){
-        String[] graph = new String[this.size];
+        String[] graph = new String[10];
         int i = 0;
+        int[] numbers = new int[10];
+        String chars = new String("");
         node nextMax = this.find_next_max_count();
         if (nextMax == null)
             return ;
         this.moyen = nextMax.count;
-        // System.out.println(nextMax.c + " " + nextMax.count);
-        while(nextMax != null){
+        while(i < 10 && nextMax != null){
+            numbers[i] = nextMax.count;
+            chars  += (nextMax.c + "   ");
             graph[i] = this.fill_arrow(nextMax);
-            System.out.println(graph[i]);
             nextMax = this.find_next_max_count();
             i++;
         }
+        if (i == 0)
+            return ;
         // render graph
-        // int j = graph[0].length();
-        // String line = new String("");
-        // for(int nline = 0; i < 10; nline++){
-        //     j--;
-        //     for(int index = 0; i < graph.length && j > 0; index++){
-        //         if (j < graph[index].length())
-        //             line += graph[index].charAt(j);
-        //         // System.out.println(graph[index].charAt(j));
-        //     }
-        //     System.out.println(line);
-        //     line = "";
-        // }
+        int j = graph[0].length() + 1;
+        String line = new String();
+        for(int nline = 0; nline < 11; nline++){
+            j--;
+            for(int index = 0; (index < i && j >= 0); index++){
+                if ((j == graph[index].length()) || (j == graph[index].length() && j == 0)){
+                    line += numbers[index];
+                    if (numbers[index] > 9)
+                        line += "  ";
+                    else
+                        line += "   ";
+                }
+                if (j < graph[index].length()){
+                    line += graph[index].charAt(j);
+                    line += "   ";
+                }
+            }
+            System.out.println(line);
+            line = "";
+        }
+        System.out.println(chars);
     }
 
     public void display_list(){
