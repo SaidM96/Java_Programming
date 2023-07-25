@@ -1,21 +1,21 @@
-package ex04;
+package ex05;
 import java.util.UUID;
 
 public class User {
-    private UUID id;
+    private int id;
     private String name;
     private double balance;
     TransactionsList transactions;
 
 
     public User(String name, double balance){
-        this.id = UUID.randomUUID();
+        this.id = UserIdsGenerator.getInstance().generateId();
         this.transactions = new TransactionsLinkedList();
         this.name = name;
         this.balance = balance;
     }
 
-    public UUID getId(){
+    public int getId(){
         return this.id;
     }
 

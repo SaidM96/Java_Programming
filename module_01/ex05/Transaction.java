@@ -1,14 +1,14 @@
-package ex04;
+package ex05;
 import java.util.UUID;
 
 public class Transaction{
-    private UUID id;
-    private UUID userId;
-    private UUID otherId;
+    private UUID id;    
+    private int userId;
+    private int otherId;
     private TransactionType type;
     private double amount;
     
-    public Transaction(UUID id, UUID userId,UUID otherId, TransactionType type, double amount){
+    public Transaction(UUID id, int userId,int otherId, TransactionType type, double amount){
         this.id = id;
         this.otherId = otherId;
         this.userId = userId;
@@ -20,11 +20,11 @@ public class Transaction{
         return this.id;
     }
 
-    public UUID getUserId(){
+    public int getUserId(){
         return this.userId;
     }
 
-    public UUID getOtherUserId(){
+    public int getOtherUserId(){
         return this.otherId;
     }
 
@@ -37,7 +37,7 @@ public class Transaction{
     }
 
     // setter
-    public void setUserId(UUID id){
+    public void setUserId(int id){
         this.userId = id;
     }
 

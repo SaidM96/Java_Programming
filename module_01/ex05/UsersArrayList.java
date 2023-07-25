@@ -1,4 +1,4 @@
-package ex04;
+package ex05;
 import java.util.UUID;
 
 public class UsersArrayList implements UsersList{
@@ -31,7 +31,7 @@ public class UsersArrayList implements UsersList{
         this._size++;
     }
 
-    public User getUserById(UUID id){
+    public User getUserById(int id){
         for(int i = 0; i < this._size; ++i){
             if (this._users[i].getId() == id)
                 return this._users[i];

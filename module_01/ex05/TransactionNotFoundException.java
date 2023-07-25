@@ -1,4 +1,4 @@
-package ex04;
+package ex05;
 
 public class TransactionNotFoundException extends Exception {
     public TransactionNotFoundException(String message) {

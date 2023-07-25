@@ -1,4 +1,4 @@
-package ex04;
+package ex05;
 import java.util.UUID;
 public class TransactionsLinkedList implements TransactionsList{
     Node head;
@@ -34,7 +34,7 @@ public class TransactionsLinkedList implements TransactionsList{
         Node prev = null;
         boolean isDeleted = false;
         while(tmp != null){
-            if (id == tmp.value.getId()){
+            if (id.equals(tmp.value.getId())){
                 if (prev == null)
                     this.head = tmp.next;
                 else

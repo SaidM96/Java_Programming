@@ -1,4 +1,4 @@
-package ex04;
+package ex05;
 import java.util.UUID;
 public class TransactionsService {
     UsersList userList;
@@ -14,12 +14,17 @@ public class TransactionsService {
         return newUser;
     }
 
-    public double getBalanceById(UUID id){
+    public double getBalanceById(int id){
         User user = this.userList.getUserById(id);
         return user.getBalance();
     }
 
-    public UUID PerformeTransaction(UUID senderId, UUID recieverId, double amount) throws IllegalTransactionException{
+    public User getUserById(int id){
+        User user = this.userList.getUserById(id);
+        return user;
+    }
+
+    public UUID PerformeTransaction(int senderId, int recieverId, double amount) throws IllegalTransactionException{
         UUID id = UUID.randomUUID();
         User sender = this.userList.getUserById(senderId);
         User receiver = this.userList.getUserById(recieverId);
@@ -35,17 +40,17 @@ public class TransactionsService {
         return senderTransaction.getId();
     }
 
-    public Transaction[] getTransactionsHistory(UUID userId){
+    public Transaction[] getTransactionsHistory(int userId){
         User user = this.userList.getUserById(userId);
         return user.transactions.toArray();
     }
 
-    public void removeTransaction(UUID transactionId, UUID userId)throws TransactionNotFoundException {
+    public void removeTransaction(UUID transactionId, int userId)throws TransactionNotFoundException {
         User user = this.userList.getUserById(userId);
         user.transactions.RemoveTransaction(transactionId);
     }
 
-    private boolean isValideTransaction(UUID transactionId, UUID userAId, UUID userBId){
+    private boolean isValideTransaction(UUID transactionId, int userAId, int userBId){
         User userA = this.userList.getUserById(userAId);
         User userB = this.userList.getUserById(userBId);
         Transaction trA = userA.transactions.getTransactionById(transactionId);
