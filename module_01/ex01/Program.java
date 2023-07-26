@@ -11,6 +11,3 @@ public class Program {
         System.out.println(userC.getName() + " id: " + userC.getId());
     }
 }
-
-// to compile : javac ex01/Program.java  ex01/UserIdsGenerator.java ex01/User.java
-// to execute : java ex01/Program

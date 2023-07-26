@@ -1,9 +1,10 @@
+package ex00;
 import java.util.UUID;
 
 public class User {
-    UUID Identifier;
-    String Name;
-    double Balance;
+    private UUID Identifier;
+    private String Name;
+    private double Balance;
 
     public User(String name, double bl){
         this.Identifier = UUID.randomUUID();
@@ -11,7 +12,7 @@ public class User {
         this.Balance = bl;
     }
 
-    public double getBalance(){
+    public double GetBalance(){
         return this.Balance;
     }
 
@@ -19,7 +20,7 @@ public class User {
         return this.Name;
     }
 
-    public void setBalance(balance){
+    public void setBalance(double balance){
         this.Balance = balance;
     }
 }
