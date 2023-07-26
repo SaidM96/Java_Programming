@@ -55,18 +55,18 @@ public class TransactionsService {
         User userB = this.userList.getUserById(userBId);
         Transaction trA = userA.transactions.getTransactionById(transactionId);
         Transaction trB = userB.transactions.getTransactionById(transactionId);
-        if (trA != null && trB != null && (trA.getType() != trB.getType()) && (trA.getAmount() == trB.getAmount())){
+        if (trA != null && trB != null && (trA.getType() != trB.getType()) && (trA.getAmount() == trB.getAmount()))
             return true;
-        }
         return false;
     }
 
     public Transaction[] checkValidityOfTransaction(){
+        this.unpairTransactions.clear();
         User[] users = this.userList.getUsers();
         for(int i = 0; i < this.userList.size(); i++){
             Transaction[] transactions = users[i].transactions.toArray();
-            for(int j = 0; j < transactions.length; j++){
-                if (!this.isValideTransaction(transactions[j].getId(), transactions[j].getUserId(),transactions[j].getOtherUserId())){
+            for(int j = 0; j < users[i].transactions.size(); j++){
+                if (this.isValideTransaction(transactions[j].getId(), transactions[j].getUserId(),transactions[j].getOtherUserId()) == false){
                     this.unpairTransactions.AddTransaction(transactions[j]);
                 }
             }

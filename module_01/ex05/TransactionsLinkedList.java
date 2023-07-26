@@ -9,6 +9,11 @@ public class TransactionsLinkedList implements TransactionsList{
         this.size = 0;
     }
 
+    public void clear(){
+        this.head = null;
+        this.size = 0;
+    }
+
     public void AddTransaction(Transaction transaction){
         Node newNode = new Node(transaction);
         this.size++;
@@ -23,8 +28,9 @@ public class TransactionsLinkedList implements TransactionsList{
     public Transaction getTransactionById(UUID transactionId){
         Node tmp = this.head;
         while(tmp != null){
-            if (tmp.value.getId() == transactionId)
+            if (transactionId.equals(tmp.value.getId()))
                 return tmp.value;
+            tmp = tmp.next;
         }
         return null;
     }
@@ -62,5 +68,9 @@ public class TransactionsLinkedList implements TransactionsList{
             index++;
         }
         return array;
+    }
+
+    public int size(){
+        return this.size;
     }
 }

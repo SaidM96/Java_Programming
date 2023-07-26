@@ -5,4 +5,6 @@ public interface TransactionsList{
     void RemoveTransaction(UUID id) throws TransactionNotFoundException;
     Transaction getTransactionById(UUID transactionId);
     Transaction[] toArray();
+    int size();
+    void clear();
 }

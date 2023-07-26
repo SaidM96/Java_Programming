@@ -9,13 +9,6 @@ public class Menu {
         this.service = new TransactionsService();
     }
 
-    // private addUserCmd(){
-
-    // }
-    // private handleCmd(int numCmd){
-
-    // }
-
     public void startProgram(){
         while(true){
             System.out.println(commands);
@@ -114,18 +107,14 @@ public class Menu {
                 case 6:{
                     System.out.println("Check results:");
                     Transaction[] unpairTransactions = this.service.checkValidityOfTransaction();
-                        System.out.println("zbi1");
-                    for(int i = 0; i < unpairTransactions.length; i++){
+                    int unpairsLength = this.service.unpairTransactions.size();
+                    for(int i = 0; i < unpairsLength; i++){
                         User user = this.service.getUserById(unpairTransactions[i].getUserId());
-                        System.out.println("zbi2");
                         User otherUser = this.service.getUserById(unpairTransactions[i].getOtherUserId());
-                        System.out.println("zbi3");
                         if (unpairTransactions[i].getType() == TransactionType.CREDIT){
-                            System.out.println("zbi4");
                             System.out.println(user.getName() + "(id = " + user.getId() + ") has an unacknowledged transfer id = " + unpairTransactions[i].getId() + " from " + otherUser.getName() + "(id = " + otherUser.getId() + ") for " + unpairTransactions[i].getAmount());
                         }
                         else{
-                            System.out.println("zbi5");
                             System.out.println(user.getName() + "(id = " + user.getId() + ") has an unacknowledged transfer id = " + unpairTransactions[i].getId() + " to " + otherUser.getName() + "(id = " + otherUser.getId() + ") for " + unpairTransactions[i].getAmount());
                         }
                     }
