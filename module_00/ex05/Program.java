@@ -6,6 +6,7 @@ public class Program {
       int max = 10;
       List users = new List();
       ClassTime[] classes = new ClassTime[10];
+      Abscence[] abs = new Abscence[10];
       int sizeClasses = 0;
       
       // phase 1
@@ -42,23 +43,18 @@ public class Program {
         int time = Integer.parseInt(params[1]);
         int day = Integer.parseInt(params[2]);
         String isHere =  params[3];
-        boolean wasHere = false;
-        if (isHere.equals("HERE"))
-          wasHere = true;
+        boolean wasHere = isHere.equals("HERE");
         Abscence obj = new Abscence();
         String dayName =  users.getDayByNumDay(day);
         obj.setValues(time, day, dayName, wasHere);
+        // abs[count].setValues(time, day, dayName, wasHere);
         users.addAbscence(name, obj);
         count++;
       }
-      // test
-      User[] usersArr = users.toArray(); 
-      for(int i = 0; i < users.size(); i++){
-        System.out.println(usersArr[i].getName());
-        for(int j = 0; j < usersArr[i].sizeArr(); j++){
-            System.out.println(usersArr[i].abscences[j].dayName);
-        }
-      }
+      // get first line table (times)
+      String fline = users.generateFirstLine(classes,abs, sizeClasses);
+      // render table 
+      System.out.println(fline);
     }
     // 
 }
@@ -156,6 +152,11 @@ public class Program {
           String[] days ={"TU", "WE", "TH", "FR", "SA", "SU","MO"};
           return days[(day - 1) % 7];
       }
+
+      public  String generateFirstLine(ClassTime[] classes, Abscence[] absences, int sizeClass) { 
+          return "";
+      }
+
       public void addAbscence(String name, Abscence obj){
           Node tmp = this.head;
           while(tmp != null){
@@ -201,5 +202,3 @@ public class Program {
         return this.size;
       }
   }
-
-   
