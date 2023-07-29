@@ -27,7 +27,7 @@ public class Program {
         String[] params = line.split(" ");
         int time = Integer.parseInt(params[0]);
         String dayName =  params[1];
-        int day = user.getDayByNumDay(dayName, 0);
+        int day = users.getNUmDayByDay(dayName, 0);
         ClassTime newClass = new ClassTime(time, dayName, day);
         classes[sizeClasses] = newClass;
         sizeClasses++;
@@ -53,9 +53,9 @@ public class Program {
         count++;
       }
       // get first line table (times)
-      String fline = users.generateFirstLine(classes, sizeClasses);
-      // render table 
-      System.out.println(fline);
+      classes = users.generateFirstLine(classes, sizeClasses);
+        // render table 
+      users.renderStudentLines(classes);
     }
     // 
 }
@@ -132,7 +132,7 @@ public class Program {
     public class Node{
       User value;
       Node next;
-      String[] days ={"TU", "WE", "TH", "FR", "SA", "SU","MO"};
+      
 
       public Node(User v){
           this.value = v;
@@ -143,21 +143,25 @@ public class Program {
     public class List{
       Node head;
       int size;
+      int sizeC;
+      String[] days ={"TU", "WE", "TH", "FR", "SA", "SU","MO"};
 
       public List(){
           this.head = null;
           this.size = 0;
+          this.sizeC = 0;
       }
 
-      // public  String getDayByNumDay(int day){
-      //     return this.days[(day - 1) % 7];
-      // }
+      public  String getDayByNumDay(int day){
+          return this.days[(day - 1) % 7];
+      }
 
       public int getNUmDayByDay(String day, int weekNum){
-        for(int i = 0; i < days.length(); i++){
+        for(int i = 0; i < days.length; i++){
             if (this.days[i].equals(day))
               return (i + 1 + 7 * weekNum);
         }
+        return 0;
       }
 
       // public boolean minClass(ClassTime class1, ClassTime class2){
@@ -171,7 +175,7 @@ public class Program {
       public ClassTime takeMinClass(ClassTime[] classes, int sizeClass){
           ClassTime holdSmaler = new ClassTime(0,"",0);
           int holdIndex = -1;
-          for(i = 0; i < sizeClass; ++i){
+          for(int i = 0; i < sizeClass; ++i){
               if (!classes[i].bool && ((classes[i].day == holdSmaler.day && classes[i].time < holdSmaler.time) || (classes[i].day < holdSmaler.day || holdSmaler.day == 0))){
                 holdSmaler = classes[i];
                 holdIndex = i;
@@ -182,25 +186,55 @@ public class Program {
       }
 
       public ClassTime[] sortClass(ClassTime[] classes, int sizeClass){
-        ClassTime[] class = new ClassTime[10];
+        ClassTime[] classTimes = new ClassTime[10];
         for(int i = 0; i < sizeClass; ++i){
-            class[i] = takeMinClass(classes,sizeClass);
+            classTimes[i] = takeMinClass(classes,sizeClass);
         }
-        return class;
+        return classTimes;
       }
 
-      public  String generateFirstLine(ClassTime[] classes, int sizeClass) { 
-          int maxClass = 10;
-          int holdTime;
-          ClassTime[] class = new ClassTime[10];
-          String firstLine = new String("");
-          class = this.sortClass(classes,sizeClass);
-          for(int j = 0; j < 4; j++){
-            for(int i = 0; i < sizeClass; ++i){
-                line += " " + class[i].time + ":00 " + class[i].dayName + " " + (class[i].day + (7 * i))  + "|";
-            }
+      public void renderStudentLines(ClassTime[] classes){
+        Node tmp = this.head;
+        String lineStudent = new String("");
+        boolean bool = true;
+        while(tmp != null){
+          lineStudent += tmp.value.getName();
+          for(int j = 0; j < this.sizeC; j++){
+              bool = true;
+              for(int i = 0; i < tmp.value.sizeArr; ++i){
+                    if (tmp.value.abscences[i].time == classes[j].time && tmp.value.abscences[i].day == classes[j].day){
+                      if (tmp.value.abscences[i].wasHere)
+                        lineStudent += "          1|";
+                      else
+                        lineStudent += "         -1|";
+                      bool = false;
+                    }
+              }
+              if (bool)
+                lineStudent += "           |";
           }
-          return line;
+          System.out.println(lineStudent);
+          lineStudent = "";
+          tmp = tmp.next;
+        }
+      }
+
+      public  ClassTime[] generateFirstLine(ClassTime[] classes, int sizeClass) { 
+          ClassTime[] classTimes = new ClassTime[10];
+          ClassTime[] resultClass = new ClassTime[10];
+          String firstLine = new String("");
+          int count = 0;
+          classTimes = this.sortClass(classes,sizeClass);
+          for(int j = 0; j <= 4; j++){
+            for(int i = 0; i < sizeClass && (classTimes[i].day + (7 * j)) < 31 && count < 10; ++i){
+              firstLine += " " + classTimes[i].time + ":00 " + classTimes[i].dayName + " " + (classTimes[i].day + (7 * j))  + "|";
+            resultClass[count] = new ClassTime(classTimes[i].time, classTimes[i].dayName, classTimes[i].day + (7 * j));
+            count++;
+          }
+        }
+        this.sizeC = count;
+        System.out.println(firstLine);
+        return resultClass;
       }
 
       public void addAbscence(String name, Abscence obj){
