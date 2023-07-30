@@ -25,9 +25,17 @@ public class Program {
         if (line.equals(".") || sizeClasses >= 10)
           break ;
         String[] params = line.split(" ");
+        if (params.length != 2){
+            System.err.println("llegalArgument");
+            System.exit(-1);
+        }
         int time = Integer.parseInt(params[0]);
         String dayName =  params[1];
         int day = users.getNUmDayByDay(dayName, 0);
+        if (day < 1 || !(time >= 1 && time <= 6)){
+              System.err.println("llegalArgument");
+              System.exit(-1);
+        }
         ClassTime newClass = new ClassTime(time, dayName, day);
         classes[sizeClasses] = newClass;
         sizeClasses++;
@@ -40,11 +48,19 @@ public class Program {
         if (line.equals(".") || count >= 10)
           break ;
         String[] params = line.split(" ");
+        if (params.length != 4){
+            System.err.println("llegalArgument");
+            System.exit(-1);
+        }
         String name = params[0];
         int time = Integer.parseInt(params[1]);
         int day = Integer.parseInt(params[2]);
         String isHere =  params[3];
         boolean wasHere = isHere.equals("HERE");
+        if ((day < 1 || day > 30) || !(time >= 1 && time <= 6) || (!wasHere && !isHere.equals("NOT_HERE"))){
+              System.err.println("llegalArgument");
+              System.exit(-1);
+        }
         Abscence obj = new Abscence();
         String dayName =  users.getDayByNumDay(day);
         obj.setValues(time, day, dayName, wasHere);
@@ -203,15 +219,20 @@ public class Program {
               bool = true;
               for(int i = 0; i < tmp.value.sizeArr; ++i){
                     if (tmp.value.abscences[i].time == classes[j].time && tmp.value.abscences[i].day == classes[j].day){
+                      if (classes[j].day > 9)
+                        lineStudent += " ";
                       if (tmp.value.abscences[i].wasHere)
-                        lineStudent += "          1|";
+                        lineStudent += "        1|";
                       else
-                        lineStudent += "         -1|";
+                        lineStudent += "       -1|";
                       bool = false;
                     }
               }
-              if (bool)
-                lineStudent += "           |";
+              if (bool){
+                if (classes[j].day > 9)
+                    lineStudent += " ";
+                lineStudent += "         |";
+              }
           }
           System.out.println(lineStudent);
           lineStudent = "";
@@ -222,7 +243,7 @@ public class Program {
       public  ClassTime[] generateFirstLine(ClassTime[] classes, int sizeClass) { 
           ClassTime[] classTimes = new ClassTime[10];
           ClassTime[] resultClass = new ClassTime[10];
-          String firstLine = new String("");
+          String firstLine = new String("  ");
           int count = 0;
           classTimes = this.sortClass(classes,sizeClass);
           for(int j = 0; j <= 4; j++){

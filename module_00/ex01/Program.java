@@ -4,7 +4,13 @@ public class Program {
 
   public static void main(String[] args) {
       Scanner in = new Scanner(System.in);
-       int num = in.nextInt();
+      int  num = 0;
+      if (in.hasNextInt())
+        num = in.nextInt();
+      else{
+        System.out.println("llegalArgument");
+        System.exit(-1);
+      }
       NumberPrime number = new NumberPrime(num);
       System.out.println(number.isPrime() + " " + number.getInstructions());
     }

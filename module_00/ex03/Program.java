@@ -7,8 +7,8 @@ public class Program {
     int num = 0;
     String WeekStr = new String("Week");
     list statics = new list();   
+    Scanner in = new Scanner(System.in);
     for(int week = 1; week <= 18; week++){
-        Scanner in = new Scanner(System.in);
         String lineWeek = in.nextLine();
         if (lineWeek.length() == 2 && lineWeek.indexOf("42") == 0){
             statics.printStatics();
@@ -94,7 +94,7 @@ public class list{
 
 public class err{
     public err(){
-        System.out.println("llegalArgument");
+        System.err.println("llegalArgument");
         System.exit(-1);
     }
 }
