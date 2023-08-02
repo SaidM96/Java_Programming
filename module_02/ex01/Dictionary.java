@@ -50,7 +50,7 @@ public class Dictionary{
                     }
                 }
             }
-            {   
+            {  
                 BufferedReader reader = new BufferedReader(new FileReader(fileName2));
                 String line;
                 while ((line = reader.readLine()) != null){
@@ -77,7 +77,4 @@ public class Dictionary{
             e.printStackTrace();
         }
     }
-
-
-
 }
