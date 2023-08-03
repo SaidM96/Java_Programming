@@ -34,7 +34,7 @@ public class FileManager{
                     this.sizeFolder(newPath);
                 }
                 else
-                    return ;
+                    break ;
             }
         }
     }
@@ -47,7 +47,7 @@ public class FileManager{
             if (file.isFile() && !file.isDirectory()){
                 long fileSizeBytes = file.length();
                 int fileSizeKB = (int) fileSizeBytes / 1024;
-                System.out.println(file.getName() + " " + fileSizeKB + " KB"); 
+                System.out.println(file.getName() + " " + fileSizeKB + " KB");
             }else{
                 this.sizeFolder(file.getParent() + "/" + file.getName());
                 int fileSizeKB = this.sizeFolder;
@@ -56,8 +56,40 @@ public class FileManager{
         }
     }
 
+    private String handlePATH(String path){
+        int count = 0;
+        String newPath = new String("");
+        String[] dirs = this.getWorkdir().split("/");
+        String nameFolder = new String("");
+        char sp = '.';
+        for(int i = path.length() - 1; i >= 0; --i){
+            if (path.charAt(i) == sp && i - 1 >= 0 && path.charAt(i - 1) == sp){
+                if (count == 0 && i + 1 < path.length())
+                    nameFolder = path.substring(i + 1);
+                count++;
+            }
+        }
+        for(int i = 0; i < dirs.length - count; i++){
+            if (i == 0)
+                newPath +=  dirs[i];
+            else
+                newPath += "/" + dirs[i];
+        }
+        if (nameFolder.length() > 0){
+            if (nameFolder.charAt(0) == '/')
+                newPath += nameFolder;
+            else
+                newPath += "/" + nameFolder;
+        }
+        return newPath;
+    }
+
     private void cd(String nameFolder){
-        String newPath = this.getWorkdir() + "/" + nameFolder;
+        String newPath = new String("");
+        if (nameFolder.contains(".."))
+            newPath = this.handlePATH(nameFolder);
+        else
+            newPath = this.getWorkdir() + "/" + nameFolder;
         File folder = new File(newPath);
         if (!folder.exists() || !folder.isDirectory()){
             System.out.println("cd: no such file or directory: " + newPath);
@@ -70,7 +102,7 @@ public class FileManager{
         String newWherePath = new String("");
         File dir = new File(this.getWorkdir());
         if (where.contains("..")){
-            newWherePath = where.replace("..", dir.getParent());
+            newWherePath = this.handlePATH(where);
             System.out.println(newWherePath);
         }
         else
