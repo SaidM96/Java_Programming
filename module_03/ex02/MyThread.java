@@ -21,10 +21,14 @@ public class MyThread extends Thread{
 
     public void run(){
         if (this.bool){
-            for(int i = from; i < this.to; ++i){
-                this.sum += arr.get(i);
+            if (this.to == this.from)
+                System.out.println("Thread " + this.id + ": from " + this.from + " to " + this.to + " sum is " + 0);
+            else{
+                for(int i = from; i < this.to; ++i){
+                    this.sum += arr.get(i);
+                }
+                System.out.println("Thread " + this.id + ": from " + this.from + " to " + this.to + " sum is " + this.sum);
             }
-            System.out.println("Thread " + this.id + ": from " + this.from + " to " + this.to + " sum is " + this.sum);
         }
         else {
             if (this.to == this.from)
