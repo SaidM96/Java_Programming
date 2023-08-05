@@ -19,6 +19,7 @@ public class Program{
             payRegular = (int) Math.ceil(((double)sizeArray / (double)numThreads));
             payLast = sizeArray - payRegular * (numThreads - 1);
         }
+
         // System.out.println("pay regular: " + payRegular + " pay last: " + payLast);
         List<MyThread> threads = new ArrayList<>();
         int j = 0;
@@ -40,17 +41,24 @@ public class Program{
         }
         else{
             for(int i = 0; i < numThreads; ++i){
-                if (bool)
+                if (!bool && (sizeArray <= j + payRegular - 1) && (i != numThreads - 1)){
+                    bool = true;
+                    payLast = ((sizeArray) - (j));
+                    max = j  + payLast - 1;
+                    // System.out.println("pay last: " + payLast + " from: " + (j  - 1) + " max: " + max);
+                    threads.add(new MyThread(i + 1, arr ,j  - 1 , max, true));
+                }
+                else if (bool)
                     threads.add(new MyThread(i + 1,arr ,max, max, false));
                 else if (i == numThreads - 1)
                     threads.add(new MyThread(i + 1, arr ,j , j + payLast - 1, false));
                 else{
                     threads.add(new MyThread(i + 1, arr ,j , j + payRegular - 1, false));
+                    // System.out.println("wazbi99  i: " + (i + 1) + " next: " + (j + payRegular - 1));
                     if (j + payRegular == sizeArray){
                         bool = true;
                         max = j + payRegular - 1;
                     }
-                        
                 }
                 j += payRegular;
             }
@@ -59,6 +67,8 @@ public class Program{
         try {
             for(int i = 0; i < numThreads; ++i){
                 threads.get(i).start();
+            }
+            for(int i = 0; i < numThreads; ++i){
                 threads.get(i).join();
             }
         } catch (InterruptedException e) {
