@@ -13,18 +13,34 @@ public class Program{
             arr.add(1);
         }
 
-        (double) pay = (double)sizeArray / (double)numThreads;
-        if (pay < 1)
-
-        if ((int) Math.ceil(pay) * sizeArray)
-        int payThread = (int) Math.ceil(pay);
-        System.out.println("pay double: " + pay);
+        int payRegular = (int) Math.floor((double)sizeArray / (double)numThreads);
+        int payLast = sizeArray - payRegular * (numThreads - 1);
+        if (payRegular < payLast){
+            payRegular = (int) Math.ceil(((double)sizeArray / (double)numThreads));
+            payLast = sizeArray - payRegular * (numThreads - 1);
+        }
+        System.out.println("pay regular: " + payRegular + " pay last: " + payLast);
         List<MyThread> threads = new ArrayList<>();
-        for(int i = 0; i < numThreads; i += pay + 1){
-            if (i == numThreads - 1)
-                threads.add(new MyThread(i + 1,arr ,i , i + pay));
-            else
-                threads.add(new MyThread(i + 1,arr ,i , i + pay));
+        int j = 0;
+        boolean bool = false;
+        int max = sizeArray - 1;
+        for(int i = 0; i < numThreads; ++i){
+            if (sizeArray <= numThreads){
+                threads.add(new MyThread(i + 1, arr ,j , j + payRegular, true));
+            }
+            else if (bool)
+                threads.add(new MyThread(i + 1,arr ,max, max, false));
+            else if (i == numThreads - 1)
+                threads.add(new MyThread(i + 1, arr ,j , j + payLast - 1, false));
+            else{
+                threads.add(new MyThread(i + 1, arr ,j , j + payRegular - 1, false));
+                if (j + payRegular == sizeArray){
+                    bool = true;
+                    max = j + payRegular - 1;
+                }
+                    
+            }
+            j += payRegular;
         }
         try {
             for(int i = 0; i < numThreads; ++i){
