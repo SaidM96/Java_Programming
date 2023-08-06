@@ -20,15 +20,14 @@ public class Program{
             FileWriter fileWriter = new FileWriter(fileName);
             fileWriter.write(textToWrite);
             fileWriter.close();
-            System.out.println("Text written to the file.");
         } catch (IOException e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
 
         Deque<ClassFile> filesToDownload = new ArrayDeque<>();
         String[] files = textToWrite.split("\n");
-        for(int i = 0; i < files.length; ++i){  
-            filesToDownload.addLast(new ClassFile(files[i], Status.WaitingList));
+        for(int i = 0; i < files.length; ++i){
+            filesToDownload.addLast(new ClassFile(i + 1, files[i], Status.WaitingList));
         }
         // start dowload
         List<MyThread> threads = new ArrayList<>();
@@ -39,6 +38,14 @@ public class Program{
 
         for(int i = 0; i < numThreads; ++i){
             threads.get(i).start();
+        }
+
+        try {
+            for(int i = 0; i < numThreads; ++i){
+                threads.get(i).join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

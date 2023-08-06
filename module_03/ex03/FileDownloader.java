@@ -14,24 +14,21 @@ public class FileDownloader {
 
 
         public void dowload(String urlStr){
-            try {
-                URL url = new URL(this.urlStr);
-                URLConnection connection = url.openConnection();
-                InputStream inputStream = connection.getInputStream();
-                
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                
-                FileOutputStream outputStream = new FileOutputStream("downloaded_image.png");
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
+                try {  
+                    URL url = new URL(urlStr);
+                    URLConnection connection = url.openConnection();
+                    InputStream inputStream = connection.getInputStream();
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    String fileName = urlStr.substring(urlStr.lastIndexOf('/') + 1);
+                    FileOutputStream outputStream = new FileOutputStream(fileName);
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    outputStream.close();
+                    inputStream.close();
                 }
-                
-                outputStream.close();
-                inputStream.close();
-                
-                System.out.println("File downloaded and saved as: " + "downloads");
-            } catch (IOException e) {
+                catch (IOException e) {
                 e.printStackTrace();
             }
         }

@@ -5,4 +5,4 @@ public enum Status {
     StartDownleading,
     FinishDownload,
     WorkingOn
-}
+} 
