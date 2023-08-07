@@ -1,1 +1,0 @@
-Main-Class: fr.42.printer.Program

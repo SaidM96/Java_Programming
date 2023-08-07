@@ -1,4 +1,5 @@
-package ex00;
+package fr.my.printer;
+
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,7 +16,7 @@ public class ReadBMPImage {
             int[][] pixelColors = new int[16][16];
             try {
                 // Load the BMP image
-                File imageFile = new File("/goinfre/smia/zbi/module_04/ex00/it.bmp");
+                File imageFile = new File("/goinfre/smia/zbi/module_04/ex00/ImagesToChar/src/resources/it.bmp");
                 BufferedImage image = ImageIO.read(imageFile);
                 // Get image dimensions
                 int width = 16;

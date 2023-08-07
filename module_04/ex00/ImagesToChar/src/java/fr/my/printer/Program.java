@@ -1,4 +1,5 @@
-package ex00;
+package fr.my.printer;
+
 
 public class Program {
     public static void main(String[] args){

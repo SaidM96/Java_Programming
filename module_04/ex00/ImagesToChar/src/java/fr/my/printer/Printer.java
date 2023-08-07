@@ -1,4 +1,4 @@
-package ex00;
+package fr.my.printer;
 
 public class Printer{   
     private int[][] pixels;
