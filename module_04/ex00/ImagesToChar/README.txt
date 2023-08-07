@@ -1,6 +1,7 @@
-cd ImagesToChar
+First step : compilation
 
-javac -d target/java src/java/fr/my/printer/*.java
+javac -d ImagesToChar/target/java ImagesToChar/src/java/fr/my/printer/*.java
 
+Secound step : execution
 
-java -cp target/java fr.my.printer.Program . o
+java -cp ImagesToChar/target/java fr.my.printer.Program . o
