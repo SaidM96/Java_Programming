@@ -13,15 +13,6 @@ CREATE TABLE Chatroom{
     FOREIGN key (ownerId) REFERENCES User(userID),
 };
 
-
-CREATE TABLE userChatRoom{
-    user_id BIGINT,
-    chatroom_id BIGINT,
-    PRIMARY KEY (user_id, chatroom_id),
-    FOREIGN KEY (user_id) REFERENCES User(userID),
-    FOREIGN  KEY (chatroom_id) REFERENCES Chatroom(roomId),
-};
-
 CREATE TABLE Message{
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     roomId      Int,

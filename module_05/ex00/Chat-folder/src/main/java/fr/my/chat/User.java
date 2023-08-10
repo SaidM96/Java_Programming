@@ -1,11 +1,19 @@
+package fr.my.chat;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
 public class User{
     private Long                userID;
     private String              userLogin;
     private String              userPassword;
-    private List<ChatRoom>      createdRooms;
-    private List<ChatRoom>      chatrooms;
+    private List<ChatRoom>      createdRooms = new LinkedList<>();
+    private List<ChatRoom>      chatrooms = new LinkedList<>();
 
 
+    public User() {
+    }
     public User(Long id, String login, String password) {
         this.userID = id;
         this.userLogin = login;
@@ -34,44 +42,36 @@ public class User{
         this.userPassword = password;
     }
 
-    // hashCode()
+    public List<ChatRoom> getChatRooms(){
+        return this.chatrooms;
+    }
+
+    public List<ChatRoom> getCreatedRooms(){
+        return this.createdRooms;
+    }
+
+    // hashCode
     public int hashCode(){
-        String code = "" + this.id;
+        String code = "" + this.userID;
         return (code.hashCode());
     }
 
-    // equals()
-    public boolean equals(User other){
-        if (other && other.getId() == this.id)
+    // equals
+    public boolean equals(Object obj){
+        if (this == obj)
             return true;
+        if (obj != null){
+            User user = (User) obj;
+            if (user.getId() == this.userID)
+                return true;
+        }
         return false;
     }
 
     // toString()
     public String toString(){
-        return "User{" + "id=" + this.id + ", login='" + this.userLogin + '\'' + '}';
+        return "User{" + "id=" + this.userID + ", login='" + this.userLogin + '\'' + '}';
     }
 }
 
 
-public class ChatRoom{
-    private Long          roomId;
-    private Long          ownerId;
-    private String        roomName;
-    private List<Message> messages;
-}
-
-public class userChatRoom{
-    private Long      user_id;
-    private Long      chatroom_Id;
-    private User      user;
-    private ChatRoom  chatroom;
-}
-
-public class Message{
-    private Long    id;
-    private Long    roomId;
-    private Long    authorId;
-    private String  MsgText;
-    private String  sendAt;
-}   
