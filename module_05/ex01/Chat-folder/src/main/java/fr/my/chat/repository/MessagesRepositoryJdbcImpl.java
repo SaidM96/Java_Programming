@@ -7,6 +7,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import fr.my.chat.models.ChatRoom;
 import fr.my.chat.models.Message;
+import fr.my.chat.models.User;
+
 import java.util.LinkedList;
 import com.zaxxer.hikari.HikariConfig;
 
@@ -32,9 +34,9 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository{
         try (PreparedStatement stmt = this.connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query)){
             while(rs.next()){
-                Message msg = new Message(rs.getLong("id"), rs.getLong("roomId"), rs.getLong("authorId"), rs.getString("MsgText"));
-                msg.setTime(rs.getTimestamp("dateTime"));
-                messages.add(msg);
+                // Message msg = new Message(rs.getLong("id"), rs.getLong("roomId"), rs.getLong("authorId"), rs.getString("MsgText"));
+                // msg.setTime(rs.getTimestamp("dateTime"));
+                // messages.add(msg);
             }
             return messages;
         }
@@ -83,8 +85,13 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository{
         try(PreparedStatement stmt = this.connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query)){
                 if (rs.next()){
+                    List<ChatRoom>  Rooms =  new LinkedList<>();
+                    List<Message>   messages =  new LinkedList<>();
+
                     Message msg = new Message(rs.getLong("id"), 
-                        rs.getLong("roomId"), new ChatRoom(),rs.getLong("authorId"), rs.getString("MsgText"));
+                        new ChatRoom(8L,0L,"room", messages),
+                        new User(7L, "user", "user",  Rooms, Rooms),
+                        rs.getString("MsgText"));
                     msg.setTime(rs.getTimestamp("dateTime"));
                     return Optional.of(msg);
                 }
@@ -97,4 +104,3 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository{
         }
     }
 }
-    public ChatRoom(Long roomId,Long ownerId, String roomName, List<Message> messages){
