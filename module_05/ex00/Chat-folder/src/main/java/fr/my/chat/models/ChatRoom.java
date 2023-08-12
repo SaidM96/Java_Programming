@@ -1,16 +1,22 @@
-package fr.my.chat;
+package fr.my.chat.models;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class ChatRoom{
     private Long          roomId;
     private Long          ownerId;
     private String        roomName;
-    private List<Message> messages;
+    private List<Message> messages = new LinkedList<>();
 
 
+    public ChatRoom(){}
+    public ChatRoom(Long roomId,Long ownerId, String roomName, List<Message> messages){
+        this.roomId = roomId;
+        this.ownerId = ownerId;
+        this.roomName = roomName;
+        this.messages = messages;
+    }
     public Long getId() {
         return this.roomId;
     }

@@ -1,23 +1,28 @@
-package fr.my.chat;
+package fr.my.chat.models;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class User{
     private Long                userID;
-    private String              userLogin;
+    private String              login;
     private String              userPassword;
-    private List<ChatRoom>      createdRooms = new LinkedList<>();
-    private List<ChatRoom>      chatrooms = new LinkedList<>();
+    private List<ChatRoom>      createdRooms;
+    private List<ChatRoom>      chatrooms;
 
 
     public User() {
+        this.createdRooms = new LinkedList<>();
+        this.chatrooms = new LinkedList<>();
     }
-    public User(Long id, String login, String password) {
+    public User(Long id, String login, String password, List<ChatRoom> createdRooms, List<ChatRoom> chatrooms) {
         this.userID = id;
-        this.userLogin = login;
+        this.login = login;
         this.userPassword = password;
+        this.createdRooms = createdRooms;
+        this.chatrooms = chatrooms;
+        this.createdRooms = new LinkedList<>();
+        this.chatrooms = new LinkedList<>();
     }
 
     // Getters and setters
@@ -27,11 +32,11 @@ public class User{
     }
 
     public String getLogin() {
-        return this.userLogin;
+        return this.login;
     }
 
     public void setLogin(String login) {
-        this.userLogin = login;
+        this.login = login;
     }
 
     public String getPassword() {
@@ -70,7 +75,7 @@ public class User{
 
     // toString()
     public String toString(){
-        return "User{" + "id=" + this.userID + ", login='" + this.userLogin + '\'' + '}';
+        return "User{" + "id=" + this.userID + ", login='" + this.login + '\'' + '}';
     }
 }
 
