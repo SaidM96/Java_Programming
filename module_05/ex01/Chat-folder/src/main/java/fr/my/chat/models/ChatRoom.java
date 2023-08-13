@@ -1,6 +1,5 @@
 package fr.my.chat.models;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class ChatRoom{

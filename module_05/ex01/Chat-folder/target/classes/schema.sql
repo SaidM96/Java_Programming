@@ -1,4 +1,4 @@
-CREATE DATABASE MyDb;
+CREATE SCHEMA chat;
 
 CREATE TABLE User{
     userID          BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -11,7 +11,7 @@ CREATE TABLE Chatroom{
     roomName    VARCHAR(255) UNIQUE NOT NULL,
     ownerId     BIGINT,
     FOREIGN key (ownerId) REFERENCES User(userID),
-};
+};  
 
 CREATE TABLE Message{
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
