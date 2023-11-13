@@ -12,11 +12,13 @@ public class TransactionsLinkedList implements TransactionsList{
     public void AddTransaction(Transaction transaction){
         Node newNode = new Node(transaction);
         this.size++;
+        // if list is empty we set new Node at head
         if (this.head == null){
             this.head = newNode;
             return ;
         }
         newNode.next = this.head;
+        this.head.prev = newNode;
         this.head = newNode;
     }
 

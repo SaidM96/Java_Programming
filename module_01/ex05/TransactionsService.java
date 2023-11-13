@@ -28,15 +28,15 @@ public class TransactionsService {
         UUID id = UUID.randomUUID();
         User sender = this.userList.getUserById(senderId);
         User receiver = this.userList.getUserById(recieverId);
+        if (sender == null || receiver == null)  throw new IllegalTransactionException("no such user");
         if (sender.getBalance() < amount)
-            throw new IllegalTransactionException("IllegalTransactionException"); // throw sold insuffisant
+            throw new IllegalTransactionException("IllegalTransactionException : sold insuffisant");
         Transaction senderTransaction = new Transaction(id, senderId, recieverId, TransactionType.DEBIT, amount);
         Transaction receiverTransaction = new Transaction(id, recieverId, senderId, TransactionType.CREDIT, amount);
         sender.setBalance(sender.getBalance() - amount);
         receiver.setBalance(receiver.getBalance() + amount);
         sender.transactions.AddTransaction(senderTransaction);
         receiver.transactions.AddTransaction(receiverTransaction);
-
         return senderTransaction.getId();
     }
 

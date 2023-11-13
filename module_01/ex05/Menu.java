@@ -11,27 +11,57 @@ public class Menu {
 
     public void startProgram(){
         while(true){
-            System.out.println(commands);
+            System.out.println(this.commands);
             Scanner in = new Scanner(System.in);
-            int numCmd = in.nextInt();
+            int numCmd = 0;
+            try {
+                if (!in.hasNextInt()) throw new IllegalTransactionException("please enter a valid number command");
+                numCmd = in.nextInt();
+            }
+            catch(Exception e){
+                if (e instanceof IllegalTransactionException)
+                    System.out.println(e.getMessage());
+                else
+                    System.out.println("please enter a valid number command");
+            }
             if (numCmd == 1){
-                System.out.println("Enter a user name and a balance");
-                Scanner inSwitch = new Scanner(System.in);
-                String cmd = inSwitch.nextLine();
-                String[] params = cmd.split(" ");
-                String name = params[0];
-                int balance = Integer.parseInt(params[1]); 
-                if (name.length() > 1 && balance > 0){
-                    User user = this.service.AddUser(name, balance);
-                    System.out.println("User with id = " + user.getId() + " is added");
+                try {
+                    System.out.println("Enter a user name and a balance");
+                    Scanner inSwitch = new Scanner(System.in);
+                    if (!inSwitch.hasNextLine()) throw new IllegalTransactionException("please enter a user name and  balance");
+                    String cmd = inSwitch.nextLine();
+                    String[] params = cmd.split(" ");
+                    if (params.length != 2) throw new IllegalTransactionException("please enter a valid  user name and  balance");
+                    String name = params[0];
+                    int balance = Integer.parseInt(params[1]);
+                    if (name.length() > 1 && balance >= 0){
+                        User user = this.service.AddUser(name, balance);
+                        System.out.println("User with id = " + user.getId() + " is added");
+                    }
+                }
+                catch(Exception e){
+                    if (e instanceof IllegalTransactionException)
+                        System.out.println(e.getMessage());
+                    else
+                        System.out.println("please enter a valid user name and  balance");
                 }
             }
             else if (numCmd == 2){
-                System.out.println("Enter a user ID");
-                Scanner inSwitch = new Scanner(System.in);
-                int id = inSwitch.nextInt();
-                User user = this.service.getUserById(id);
-                System.out.println(user.getName() + " - " + user.getBalance());
+                try {
+                    System.out.println("Enter a user ID");
+                    Scanner inSwitch = new Scanner(System.in);
+                    if (!inSwitch.hasNextInt()) throw new IllegalTransactionException("please enter a valid user ID");
+                    int id = inSwitch.nextInt();
+                    User user = this.service.getUserById(id);
+                    if (user == null) throw new IllegalTransactionException("no such user with Id: " + id);
+                    System.out.println(user.getName() + " - " + user.getBalance());
+                }
+                catch(Exception e){
+                    if (e instanceof IllegalTransactionException)
+                        System.out.println(e.getMessage());
+                    else
+                        System.out.println("please enter a valid user ID");
+                }
             }
             else if (numCmd == 3){
                 try{
@@ -46,23 +76,35 @@ public class Menu {
                     System.out.println("The transfer is completed");
                 }
                 catch(Exception e){
-                    System.out.println(e.getMessage());
+                    if (e instanceof IllegalTransactionException)
+                        System.out.println(e.getMessage());
+                    else
+                        System.out.println("please enter a valid Transaction : sender ID, a recipient ID, and a transfer amount");
                 }
             }
             else if (numCmd == 4){
-                System.out.println("Enter a user ID");
-                Scanner inSwitch = new Scanner(System.in);
-                int id = inSwitch.nextInt();
-                User user = this.service.getUserById(id);
-                Transaction[] trs = this.service.getTransactionsHistory(id);
-                for(int i = 0; i < trs.length; i++){
-                    User otherUser = this.service.getUserById(trs[i].getOtherUserId());
-                    if (trs[i].getType() == TransactionType.CREDIT){
-                        System.out.println("From " + otherUser.getName() + "(id = " + otherUser.getId() + ") " + "+" + trs[i].getAmount() + " with id = " + trs[i].getId());
+                try {
+                    System.out.println("Enter a user ID");
+                    Scanner inSwitch = new Scanner(System.in);
+                    int id = inSwitch.nextInt();
+                    User user = this.service.getUserById(id);
+                    if (user == null) throw new IllegalTransactionException("no such user with ID: " + id);
+                    Transaction[] trs = this.service.getTransactionsHistory(id);
+                    for(int i = 0; i < trs.length; i++){
+                        User otherUser = this.service.getUserById(trs[i].getOtherUserId());
+                        if (trs[i].getType() == TransactionType.CREDIT){
+                            System.out.println("From " + otherUser.getName() + "(id = " + otherUser.getId() + ") " + "+" + trs[i].getAmount() + " with id = " + trs[i].getId());
+                        }
+                        else{
+                            System.out.println("To " + otherUser.getName() + "(id = " + otherUser.getId() + ") " + "-" + trs[i].getAmount() + " with id = " + trs[i].getId());
+                        }
                     }
-                    else{
-                        System.out.println("To " + otherUser.getName() + "(id = " + otherUser.getId() + ") " + "-" + trs[i].getAmount() + " with id = " + trs[i].getId());
-                    }
+                }
+                catch (Exception e){
+                    if (e instanceof IllegalTransactionException)
+                        System.out.println(e.getMessage());
+                    else
+                        System.out.println("please enter a valid user ID");
                 }
             }
             else if (numCmd == 5){
@@ -71,9 +113,10 @@ public class Menu {
                     Scanner inSwitch = new Scanner(System.in);
                     String cmd = inSwitch.nextLine();
                     String[] params = cmd.split(" ");
-                    UUID trId = UUID.fromString(params[1]);
                     int id = Integer.parseInt(params[0]);
                     User user = this.service.getUserById(id);
+                    if (user == null) throw new IllegalTransactionException("no such user with ID: " + id);
+                    UUID trId = UUID.fromString(params[1]);
                     Transaction[] transactions = this.service.getTransactionsHistory(id);
                     Transaction deletedTr = null;
                     for(int i = 0; i < transactions.length; i++){
@@ -81,8 +124,7 @@ public class Menu {
                             deletedTr = transactions[i];
                     }
                     if (deletedTr == null){
-                        System.out.println("ikhan");
-                        break;
+                        throw new IllegalTransactionException(user.getName() + " has no transaction with uuid: " + trId);
                     }
                     User otherUser = this.service.getUserById(deletedTr.getOtherUserId());
                     if (deletedTr.getType() == TransactionType.CREDIT){
@@ -94,9 +136,11 @@ public class Menu {
                     this.service.removeTransaction(trId, id);
                 }
                 catch(Exception e){
-                    System.out.println(e.getMessage());
+                    if (e instanceof IllegalTransactionException)
+                        System.out.println(e.getMessage());
+                    else
+                        System.out.println("invalid user ID and a transfer ID");
                 }
-                // Transfer To Mike(id = 2) 150 removed
             }
             else if (numCmd == 6){
                 System.out.println("Check results:");

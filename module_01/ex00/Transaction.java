@@ -35,9 +35,11 @@ public class Transaction {
     public User GetSender(){
         return this.Sender;
     }
+
     public User GetRecipient(){
         return this.Recipient;
     }
+    
     public boolean getCategory(){
         return this.category;
     }
