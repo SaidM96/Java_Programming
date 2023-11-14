@@ -2,11 +2,11 @@ package ex00;
 import java.util.UUID;
 
 public class Transaction {
-    UUID                    Identifier;
-    User                    Recipient;
-    User                    Sender;
-    boolean                 category;
-    double                  Amount;
+    private UUID                    Identifier;
+    private User                    Recipient;
+    private User                    Sender;
+    private boolean                 category;
+    private double                  Amount;
 
     public boolean isValidTransaction(double amount){
         if ((this.category &&  amount > 0) || (!this.category && amount < 0))
