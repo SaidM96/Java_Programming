@@ -18,8 +18,11 @@ public class Analyzer {
     // read signature.txt and fill map with key: hexSignature , value: {signatureLength} {separator: !} {extention name}
     private void fillMap(){
         try{
+            String currentDirectory = System.getProperty("user.dir");
+            String separator = System.getProperty("file.separator");
+            String fileName = "signatures.txt";
             // Step 1: Open the file for reading
-            FileInputStream fis = new FileInputStream("/goinfre/smia/Java_Programming/module_02/ex00/signatures.txt");
+            FileInputStream fis = new FileInputStream(currentDirectory  + separator + "ex00" + separator + fileName);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             String line = new String("");
