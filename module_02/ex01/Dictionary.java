@@ -48,6 +48,7 @@ public class Dictionary{
     }
 
     public void FillDictionary(String fileName1, String fileName2){
+        long MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
         String currentDirectory = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         try{
@@ -55,6 +56,10 @@ public class Dictionary{
                 BufferedReader reader = fileName1.contains("/") ? new BufferedReader(new FileReader(fileName1)) 
                                         : 
                                         new BufferedReader(new FileReader(currentDirectory + separator + "ex01" + separator + fileName1));
+                if (MAX_FILE_SIZE_BYTES < reader.toString().length()){
+                    System.out.println("Maximum size of these files is 10 MB");
+                    return ;
+                }
                 String line;
                 while ((line = reader.readLine()) != null){
                     String[] words = line.split(" ");
