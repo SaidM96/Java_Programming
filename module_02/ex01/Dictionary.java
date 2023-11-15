@@ -30,6 +30,7 @@ public class Dictionary{
             v1carre += this.vec1.get(i) * this.vec1.get(i);
             v2carre += this.vec2.get(i) * this.vec2.get(i);
         }
+        if (v1carre == 0 || v2carre == 0) return 0;
         return (Numerator / (Math.sqrt(v1carre) * Math.sqrt(v2carre)));
     }
 

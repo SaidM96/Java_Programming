@@ -10,6 +10,7 @@ public class Program{
         Dictionary dictionary = new Dictionary();
         dictionary.FillDictionary(args[0], args[1]);
         double similarity = dictionary.claculeSimilarity();
-        System.out.println("Similarity = " + similarity);
+        String formattedSimilarity = String.format("%.2f", similarity);
+        System.out.println("Similarity = " + formattedSimilarity);
     }
 }
