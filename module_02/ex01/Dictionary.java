@@ -23,7 +23,6 @@ public class Dictionary{
 
     public double claculeSimilarity(){
         int Numerator = 0;
-        int Denominator = 0;
         int v1carre = 0;
         int v2carre = 0;
         for(int i = 0; i < this.vec1.size(); i++){
@@ -34,11 +33,28 @@ public class Dictionary{
         return (Numerator / (Math.sqrt(v1carre) * Math.sqrt(v2carre)));
     }
 
+    public void generateResultFile(){
+        String fileName = "dictionary.tx"; // Replace this with your desired file name
+        String currentDirectory = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
+        String content = this.dictionary.toString();
+        try (FileOutputStream fos = new FileOutputStream(currentDirectory  + separator + "ex01" + separator + fileName)) {
+            byte[] bytes = content.getBytes();
+            fos.write(bytes);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void FillDictionary(String fileName1, String fileName2){
+        String currentDirectory = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
         try{
             {
-                BufferedReader reader = new BufferedReader(new FileReader(fileName1));
+                BufferedReader reader = fileName1.contains("/") ? new BufferedReader(new FileReader(fileName1)) 
+                                        : 
+                                        new BufferedReader(new FileReader(currentDirectory + separator + "ex01" + separator + fileName1));
                 String line;
                 while ((line = reader.readLine()) != null){
                     String[] words = line.split(" ");
@@ -46,12 +62,13 @@ public class Dictionary{
                         this.data1.insert(words[i]);
                         if (!this.dictionary.contains(words[i]))
                             this.dictionary.add(words[i]);
-
                     }
                 }
             }
             {  
-                BufferedReader reader = new BufferedReader(new FileReader(fileName2));
+                BufferedReader reader = fileName2.contains("/") ? new BufferedReader(new FileReader(fileName2)) 
+                : 
+                new BufferedReader(new FileReader(currentDirectory + separator + "ex01" + separator + fileName2));
                 String line;
                 while ((line = reader.readLine()) != null){
                     String[] words = line.split(" ");
@@ -72,9 +89,9 @@ public class Dictionary{
                     this.vec2.add(num2);
                 }
             }
-
+            this.generateResultFile();
         }catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("no such file");
         }
     }
 }

@@ -5,5 +5,4 @@ public class Program{
         FileManager program = new FileManager();
         program.startProgram(args[0]);
     }
-
 }

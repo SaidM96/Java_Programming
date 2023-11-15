@@ -14,7 +14,9 @@ public class Program {
         try{
             for(int i = 0; i < 100; ++i){
                 User user = usersList.getUserById(users[i].getId());
-                System.out.println("username: " + user.getName() + " id: " + user.getId());
+                User userB = usersList.getUserByIndex(i);
+                System.out.println("usernameA: " + user.getName() + " id: " + user.getId());
+                System.out.println("usernameB: " + userB.getName() + " idex: " + i);
             }
             // err  
             User x = usersList.getUserById(102);

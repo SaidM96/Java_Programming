@@ -4,9 +4,18 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
+
 public class Analyzer {
     private Map<String, String> fileSignatures; // signature key , fileEXtention value
     private List<String> result;
+    
+    public Analyzer(){
+        this.fileSignatures = new HashMap<>();
+        this.result = new ArrayList<>();
+        this.fillMap();
+    }
+
+    // read signature.txt and fill map with key: hexSignature , value: {signatureLength} {separator: !} {extention name}
     private void fillMap(){
         try{
             // Step 1: Open the file for reading
@@ -25,33 +34,15 @@ public class Analyzer {
             //
         }
     }
+
     
-    public Analyzer(){
-        this.fileSignatures = new HashMap<>();
-        this.result = new ArrayList<>();
-        this.fillMap();
-    }
-
-    private boolean signatureChecker(String sign){
-        String result = new String("");
-        for (Map.Entry<String, String> entry : fileSignatures.entrySet()) {
-                String fileExt = entry.getValue();
-                String[] params = fileExt.split("!");
-                String Mysignature = entry.getKey().substring(0,Integer.parseInt(params[0]));
-                if (Mysignature.equals(sign.substring(0, Mysignature.length()))){
-                    this.result.add(params[1]);
-                    System.out.println("PROCESSED");
-                    return true;
-                }
-            }
-        return false;
-    }
-
+    // check file path if exist and take first 8 bbytes from it that represent hexSignature 
+    // send that signature to function signatureChecker to decide if that signature is valid file extention
+    
     public boolean checkPath(String path){
         try{
             InputStream inputStream = new FileInputStream(path);
             byte[] buffer = new byte[8]; // Buffer to hold the first 8 bytes
-
             int bytesRead = inputStream.read(buffer);
             if (bytesRead == 8) {
                 StringBuilder hexSignature = new StringBuilder();
@@ -61,10 +52,9 @@ public class Analyzer {
                 String signature = hexSignature.toString();
                 if (!this.signatureChecker(signature)){
                     this.result.add("UNDEFINED");
-                    System.out.println("UNDEFINED");
                 }
-                else
-                    return true;
+                System.out.println("PROCESSED");
+                return true;
             }
             return false;
         }
@@ -73,6 +63,20 @@ public class Analyzer {
             return false;
         }
     }
+    
+    private boolean signatureChecker(String sign){
+        for (Map.Entry<String, String> entry : fileSignatures.entrySet()) {
+                String fileExt = entry.getValue();
+                String[] params = fileExt.split("!");
+                String Mysignature = entry.getKey().substring(0,Integer.parseInt(params[0]));
+                if (Mysignature.equals(sign.substring(0, Mysignature.length()))){
+                    this.result.add(params[1]);
+                    return true;    
+                }
+        }
+        return false;
+    }
+
 
     private String resultToString(){
         String result = new String("");
@@ -85,15 +89,15 @@ public class Analyzer {
 
     public void generateResultFile(){
         String fileName = "result.txt"; // Replace this with your desired file name
+        String currentDirectory = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
         String content = this.resultToString();
-
-        try (FileOutputStream fos = new FileOutputStream(fileName)) {
+        try (FileOutputStream fos = new FileOutputStream(currentDirectory  + separator + "ex00" + separator + fileName)) {
             byte[] bytes = content.getBytes();
             fos.write(bytes);
-            System.out.println("File created and data written successfully.");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

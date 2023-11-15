@@ -1,7 +1,7 @@
 package ex00;
 import java.util.Scanner;
 
-public class Program{
+public class Program {
     public static void main(String[] args){
         Analyzer analyzer = new Analyzer();
         Scanner in = new Scanner(System.in);

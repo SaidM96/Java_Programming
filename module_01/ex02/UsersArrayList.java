@@ -41,5 +41,13 @@ public class UsersArrayList implements UsersList{
     public int getNumberOfUsers(){
         return this._size;
     }
+
+    public  User getUserByIndex(int index) throws UserNotFoundException{
+        for(int i = 0; i < this._size; ++i){
+            if (i == index)
+                return this._users[i];
+        }
+        throw new UserNotFoundException("no such user with the index: " + index);
+    }
 }
 

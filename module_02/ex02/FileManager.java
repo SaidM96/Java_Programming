@@ -5,6 +5,7 @@ import java.io.File;
 public class FileManager{
     private String workdir;
     private int sizeFolder;
+    
     public FileManager(){
         this.workdir = new String("");
         this.sizeFolder = 0;
